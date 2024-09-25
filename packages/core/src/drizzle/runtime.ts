@@ -13,6 +13,7 @@ import { getTables } from "@/schema/utils.js";
 import type { SqliteDatabase } from "@/utils/sqlite.js";
 import { type Table, TableAliasProxyHandler } from "drizzle-orm";
 import { drizzle as drizzleSQLite } from "drizzle-orm/better-sqlite3";
+import { drizzle as drizzleBunSQLite } from "drizzle-orm/bun-sqlite";
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
 import { pgSchema, pgTable } from "drizzle-orm/pg-core";
 import {
@@ -45,7 +46,10 @@ export const createDrizzleDb = (database: Database) => {
       execute: (query: any) => drizzle.execute(query),
     };
   } else {
-    const drizzle = drizzleSQLite(database.driver.readonly as SqliteDatabase);
+    // @ts-ignore
+    const drizzle = process.isBun
+      ? drizzleBunSQLite(database.driver.readonly as SqliteDatabase)
+      : drizzleSQLite(database.driver.readonly as SqliteDatabase);
     return {
       // @ts-ignore
       select: (...args: any[]) => drizzle.select(...args),

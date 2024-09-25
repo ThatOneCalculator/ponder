@@ -67,12 +67,20 @@ export type SqliteDatabase = BetterSqlite3.Database;
 export function createSqliteDatabase(
   file: string,
   options?: BetterSqlite3.Options,
-): SqliteDatabase {
+): SqliteDatabase | any {
   ensureDirExists(file);
-  const database = new BetterSqlite3(file, options);
-  improveSqliteErrors(database);
-  database.pragma("journal_mode = WAL");
-  return database;
+  // @ts-ignore
+  if (process.isBun) {
+    const bunSqlite = require("bun:sqlite").Database;
+    const database = new bunSqlite(file, options);
+    database.exec("PRAGMA journal_mode = WAL;");
+    return database;
+  } else {
+    const database = new BetterSqlite3(file, options);
+    improveSqliteErrors(database);
+    database.pragma("journal_mode = WAL");
+    return database;
+  }
 }
 
 export function createReadonlySqliteDatabase(
@@ -80,8 +88,16 @@ export function createReadonlySqliteDatabase(
   options?: BetterSqlite3.Options,
 ): SqliteDatabase {
   ensureDirExists(file);
-  const database = new BetterSqlite3(file, { readonly: true, ...options });
-  improveSqliteErrors(database);
-  database.pragma("journal_mode = WAL");
-  return database;
+  // @ts-ignore
+  if (process.isBun) {
+    const bunSqlite = require("bun:sqlite").Database;
+    const database = new bunSqlite(file, { readonly: true, ...options });
+    database.exec("PRAGMA journal_mode = WAL;");
+    return database;
+  } else {
+    const database = new BetterSqlite3(file, { readonly: true, ...options });
+    improveSqliteErrors(database);
+    database.pragma("journal_mode = WAL");
+    return database;
+  }
 }
