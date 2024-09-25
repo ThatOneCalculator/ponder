@@ -9,7 +9,7 @@ export function debounce<param extends unknown[], returnType>(
 ) {
   let args: param;
   let timeoutSet = false;
-  let timeout: NodeJS.Timeout | NodeJS.Timer;
+  let timeout: NodeJS.Timeout | NodeJS.Timer | undefined;
 
   return {
     call: (..._args: param) => {
@@ -24,7 +24,11 @@ export function debounce<param extends unknown[], returnType>(
       }
     },
     cancel: () => {
-      clearTimeout(timeout);
+      try {
+        clearTimeout(timeout as NodeJS.Timeout);
+      } catch {
+        timeout = undefined;
+      }
     },
   };
 }
