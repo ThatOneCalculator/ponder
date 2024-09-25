@@ -10,7 +10,7 @@ export class UiService {
   private common: Common;
 
   private ui = buildUiState();
-  private renderInterval?: NodeJS.Timeout;
+  private renderInterval?: NodeJS.Timeout | NodeJS.Timer;
   private render?: () => void;
   private unmount?: () => void;
   private isKilled = false;
