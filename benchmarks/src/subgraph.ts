@@ -46,7 +46,7 @@ const fetchSubgraphMetrics = async () => {
 const waitForGraphNode = async () => {
   const endClock = startClock();
   return new Promise<number>((resolve, reject) => {
-    let timeout: NodeJS.Timeout | undefined = undefined;
+    let timeout: NodeJS.Timer | NodeJS.Timeout | undefined = undefined;
     const interval = setInterval(async () => {
       try {
         const metrics = await fetchSubgraphMetrics();

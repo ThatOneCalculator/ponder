@@ -9,7 +9,7 @@ export function debounce<param extends unknown[], returnType>(
 ) {
   let args: param;
   let timeoutSet = false;
-  let timeout: NodeJS.Timeout;
+  let timeout: NodeJS.Timeout | NodeJS.Timer;
 
   return {
     call: (..._args: param) => {

@@ -100,7 +100,7 @@ export const createRealtimeSync = (
   let localChain: LightBlock[] = [];
   let queue: Queue<void, Omit<BlockWithEventData, "filters">>;
   let consecutiveErrors = 0;
-  let interval: NodeJS.Timeout | undefined;
+  let interval: NodeJS.Timer | NodeJS.Timeout | undefined;
 
   const factories: Factory[] = [];
   const logFilters: LogFilter[] = [];

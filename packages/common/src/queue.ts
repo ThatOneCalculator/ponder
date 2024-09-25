@@ -87,7 +87,7 @@ export const createQueue = <returnType, taskType = void>({
   let requests = 0;
   let isStarted = initialStart;
 
-  let timer: NodeJS.Timeout | undefined;
+  let timer: NodeJS.Timer | NodeJS.Timeout | undefined;
 
   let emptyPromiseWithResolvers:
     | (PromiseWithResolvers<void> & { completed: boolean })

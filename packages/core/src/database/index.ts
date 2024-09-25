@@ -148,7 +148,7 @@ export const createDatabase = (args: {
   schema: Schema;
   databaseConfig: DatabaseConfig;
 }): Database => {
-  let heartbeatInterval: NodeJS.Timeout | undefined;
+  let heartbeatInterval: NodeJS.Timer | NodeJS.Timeout | undefined;
   let namespace: string;
 
   ////////

@@ -4,6 +4,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   name: "@ponder/core",
   entry: ["src/index.ts", "src/bin/ponder.ts"],
+  external: ["bun:sqlite"],
   outDir: "dist",
   format: ["esm"],
   sourcemap: true,

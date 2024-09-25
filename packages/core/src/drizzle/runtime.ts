@@ -48,7 +48,8 @@ export const createDrizzleDb = (database: Database) => {
   } else {
     // @ts-ignore
     const drizzle = process.isBun
-      ? drizzleBunSQLite(database.driver.readonly as SqliteDatabase)
+      ? // @ts-ignore
+        drizzleBunSQLite(database.driver.readonly)
       : drizzleSQLite(database.driver.readonly as SqliteDatabase);
     return {
       // @ts-ignore

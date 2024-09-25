@@ -20,7 +20,7 @@ export const retry = <returnType>(
   let hasError = false;
 
   let canceled = false;
-  let timer: NodeJS.Timeout | undefined;
+  let timer: NodeJS.Timer | NodeJS.Timeout | undefined;
 
   const process = async () => {
     for (let i = 0; i < retries + 1; i++) {
